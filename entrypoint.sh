@@ -45,8 +45,8 @@ git config --global user.name "$USER_NAME"
 } || {
 	echo "[#] Target branch does not exist, creating"
 	git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
-	git checkout -b "$TARGET_BRANCH"
-	echo "[#] Branch created"
+	# git checkout -b "$TARGET_BRANCH"
+	echo "[#] Checked out main instead"
 } || {
 	echo "::error::Could not clone the destination repository. Command:"
 	echo "::error::git clone --single-branch --branch $TARGET_BRANCH https://$USER_NAME:the_api_token@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git $CLONE_DIR"
@@ -55,7 +55,7 @@ git config --global user.name "$USER_NAME"
 	exit 1
   	
 	# FIX THIS
-  	# TARGET_BRANCH_EXISTS=false
+  	# TARGET_BRANCH_EXISTS=false52633333333333333333333333333333333333333333333
 }
 
 ls -la "$CLONE_DIR"
@@ -133,5 +133,5 @@ echo "[+] git diff-index:"
 git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
 
 echo "[+] Pushing git commit"
-# --set-upstream: sets de branch when pushing to a branch that does not exist
+# --set-upstream: sets the branch when pushing to a branch that does not exist
 git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"

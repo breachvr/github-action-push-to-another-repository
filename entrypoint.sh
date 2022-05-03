@@ -13,7 +13,7 @@ USER_EMAIL="${6}"
 USER_NAME="${7}"
 DESTINATION_REPOSITORY_USERNAME="${8}"
 TARGET_BRANCH="${9}"
-TARGET_BRANCH="${10}"
+CREATE_BRANCH="${10}"
 COMMIT_MESSAGE="${11}"
 TARGET_DIRECTORY="${12}"
 
@@ -40,7 +40,7 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 {
-	echo "[#] Cloning"
+	echo "[#] Cloning branch: $TARGET_BRANCH"
 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 } || {
 	echo "[#] Target branch does not exist, creating"

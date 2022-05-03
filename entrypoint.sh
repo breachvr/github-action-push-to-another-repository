@@ -45,7 +45,7 @@ git config --global user.name "$USER_NAME"
 } || {
 	echo "[#] Target branch does not exist, creating"
 	git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
-	# git checkout -b "$TARGET_BRANCH"
+	git checkout -b "$TARGET_BRANCH"
 	echo "[#] Checked out main instead"
 } || {
 	echo "::error::Could not clone the destination repository. Command:"

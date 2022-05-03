@@ -27,7 +27,7 @@ then
 	USER_NAME="$DESTINATION_GITHUB_USERNAME"
 fi
 
-TARGET_BRANCH_EXISTS=true
+# TARGET_BRANCH_EXISTS=true
 
 CLONE_DIR=$(mktemp -d)
 
@@ -40,7 +40,12 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 {
+	echo "[#] Cloning"
 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+} || {
+	echo "[#] Target branch does not exist, creating"
+	git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+	git checkout -b "$TARGET_BRANCH"
 } || {
 	echo "::error::Could not clone the destination repository. Command:"
 	echo "::error::git clone --single-branch --branch $TARGET_BRANCH https://$USER_NAME:the_api_token@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git $CLONE_DIR"
@@ -49,8 +54,6 @@ git config --global user.name "$USER_NAME"
 	exit 1
   	
 	# FIX THIS
-	# echo "Target branch doesn't exist, fetching main branch"
- 	# git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
   	# TARGET_BRANCH_EXISTS=false
 }
 
@@ -113,10 +116,10 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
 
-if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
-  echo "Creating branch $TARGET_BRANCH"
-  git checkout -b "$TARGET_BRANCH"
-fi
+# if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
+#   echo "Creating branch $TARGET_BRANCH"
+#   git checkout -b "$TARGET_BRANCH"
+# fi
 
 echo "[+] Adding git commit"
 git add .

@@ -26,6 +26,8 @@ then
 	USER_NAME="$DESTINATION_GITHUB_USERNAME"
 fi
 
+TARGET_BRANCH_EXISTS=true
+
 CLONE_DIR=$(mktemp -d)
 
 echo "[+] Git version"
@@ -44,8 +46,13 @@ git config --global user.name "$USER_NAME"
 	echo "::error::(Note that the USER_NAME and API_TOKEN is redacted by GitHub)"
 	echo "::error::Please verify that the target repository exist AND that it contains the destination branch name, and is accesible by the API_TOKEN_GITHUB"
 	exit 1
-
+  	
+	# FIX THIS
+	# echo "Target branch doesn't exist, fetching main branch"
+ 	# git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+  	# TARGET_BRANCH_EXISTS=false
 }
+
 ls -la "$CLONE_DIR"
 
 TEMP_DIR=$(mktemp -d)
@@ -104,6 +111,11 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
 # TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
+
+if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
+  echo "Creating branch $TARGET_BRANCH"
+  git checkout -b "$TARGET_BRANCH"
+fi
 
 echo "[+] Adding git commit"
 git add .

@@ -38,6 +38,10 @@ inputs:
       to "main"
     default: main
     required: false
+  create-branch:
+    description: '[Optional] If true will create a new branch if one does not already exist. Defaults to false'
+    required: false
+    default: false
   commit-message:
     description: >-
       [Optional] commit message for the output repository. ORIGIN_COMMIT is
@@ -62,6 +66,7 @@ runs:
     - '${{ inputs.user-name }}'
     - '${{ inputs.destination-repository-username }}'
     - '${{ inputs.target-branch }}'
+    - '${{ inputs.create-branch }}'
     - '${{ inputs.commit-message }}'
     - '${{ inputs.target-directory }}'
 branding:

@@ -152,9 +152,10 @@ git commit --message "$COMMIT_MESSAGE"
 echo "[+] listing remotes"
 git remote -v
 
-# echo "[+] Pushing git commit"
+echo "[+] Pushing git commit"
 # # # --set-upstream: sets the branch when pushing to a branch that does not exist
 # git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
+git push origin "$TARGET_BRANCH" --set-upstream
 
-# echo "[+] Pushing LFS files"
-# git-lfs push
+echo "[+] Pushing LFS files"
+git-lfs push

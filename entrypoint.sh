@@ -67,7 +67,7 @@ else
 fi
 
 echo "[+] We are cloned and ready to go!"
-git status
+# git status
 
 # {
 # 	echo "[#] Cloning branch: $TARGET_BRANCH"
@@ -142,10 +142,10 @@ git status
 # COMMIT_MESSAGE="${COMMIT_MESSAGE/ORIGIN_COMMIT/$ORIGIN_COMMIT}"
 # COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 
-# echo "[+] Set directory is safe ($CLONE_DIR)"
-# # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
-# # TODO: review before releasing it as a version
-# git config --global --add safe.directory "$CLONE_DIR"
+echo "[+] Set directory is safe ($CLONE_DIR)"
+# Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
+# TODO: review before releasing it as a version
+git config --global --add safe.directory "$CLONE_DIR"
 
 # # if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
 # #   echo "Creating branch $TARGET_BRANCH"
@@ -155,8 +155,8 @@ git status
 # echo "[+] Adding git commit"
 # git add .
 
-# echo "[+] git status:"
-# git status
+echo "[+] git status:"
+git status
 
 # echo "[+] showing git refs:"
 # git show-ref

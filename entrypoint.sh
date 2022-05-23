@@ -49,7 +49,8 @@ git config --global --add safe.directory "$CLONE_DIR"
 
 echo "[+] Checking if remote exists"
 if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then
-	echo "[-] Remote not found"
+	echo "::error::Could not find the remote"
+	echo "::error::Please verify that the target repository exist AND that it contains a valid main branch AND is accesible by the API_TOKEN_GITHUB"
 	exit 1
 else
 	echo "[+] remote exists, proceeding"
@@ -60,6 +61,7 @@ fi
 if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l)" == "1" ]; then
 	echo "[+] Target branch exists, cloning repo"
 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+	git lfs pull
 else
 	echo "[-] Target branch does not exist"
 
@@ -67,6 +69,7 @@ else
 		echo "[+] Checking out repo then creating branch"
 		git config --global --add safe.directory /github/workspace
 		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+		git lfs pull
 		git checkout -b "$TARGET_BRANCH"
 	else
 		echo "[-] Create new branch disabled, exiting"
@@ -75,26 +78,7 @@ else
 fi
 
 echo "[+] We are cloned and ready to go!"
-# git status
 
-# {
-# 	echo "[#] Cloning branch: $TARGET_BRANCH"
-# 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
-# } || {
-# 	echo "[#] Target branch does not exist, creating"
-# 	git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
-# 	git checkout -b "$TARGET_BRANCH"
-# 	echo "[#] Checked out main instead"
-# } || {
-# 	echo "::error::Could not clone the destination repository. Command:"
-# 	echo "::error::git clone --single-branch --branch $TARGET_BRANCH https://$USER_NAME:the_api_token@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git $CLONE_DIR"
-# 	echo "::error::(Note that the USER_NAME and API_TOKEN is redacted by GitHub)"
-# 	echo "::error::Please verify that the target repository exist AND that it contains the destination branch name, and is accesible by the API_TOKEN_GITHUB"
-# 	exit 1
-  	
-# 	# FIX THIS
-#   	# TARGET_BRANCH_EXISTS=false52633333333333333333333333333333333333333333333
-# }
 
 ls -la "$CLONE_DIR"
 
@@ -150,15 +134,8 @@ ORIGIN_COMMIT="https://$GITHUB_SERVER/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/ORIGIN_COMMIT/$ORIGIN_COMMIT}"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 
-
-
-# # if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
-# #   echo "Creating branch $TARGET_BRANCH"
-# #   git checkout -b "$TARGET_BRANCH"
-# # fi
-
-# echo "[+] Adding git commit"
-# git add .
+echo "[+] Adding git commit"
+git add .
 
 echo "[+] git status:"
 git status

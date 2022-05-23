@@ -43,6 +43,7 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
 # TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
+git config --global --add safe.directory /github/workspace
 
 
 echo "[+] Checking if remote exists"

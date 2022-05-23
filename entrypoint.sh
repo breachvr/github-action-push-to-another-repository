@@ -51,11 +51,23 @@ fi
 
 # Check if target branch exists
 if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l)" == "1" ]; then
-	echo "[+] Target branch exists"
+	echo "[+] Target branch exists, cloning repo"
+	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 else
 	echo "[-] Target branch does not exist"
-	exit 1
+	# TODO: if create target branch, then clone the repo and create the branch
+	if [ "$CREATE_BRANCH" ]; then
+		echo "[+] Checking out repo then creating branch"
+		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
+		git checkout -b "$TARGET_BRANCH"
+	else
+		echo "[-] Create new branch disabled, exiting"
+		exit 1
+	fi
 fi
+
+echo "[+] We are cloned and ready to go!"
+git status
 
 # {
 # 	echo "[#] Cloning branch: $TARGET_BRANCH"

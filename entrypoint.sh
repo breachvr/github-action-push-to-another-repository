@@ -43,7 +43,7 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
 # TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
-git config --global --add safe.directory /github/workspace
+# git config --global --add safe.directory /github/workspace
 
 
 echo "[+] Checking if remote exists"
@@ -61,7 +61,7 @@ if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERV
 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 else
 	echo "[-] Target branch does not exist"
-	# TODO: if create target branch, then clone the repo and create the branch
+
 	if [ "$CREATE_BRANCH" ]; then
 		echo "[+] Checking out repo then creating branch"
 		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"

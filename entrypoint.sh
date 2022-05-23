@@ -71,6 +71,7 @@ else
 		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 		git lfs pull
 		git checkout -b "$TARGET_BRANCH"
+		git status
 	else
 		echo "[-] Create new branch disabled, exiting"
 		exit 1

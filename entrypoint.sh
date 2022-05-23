@@ -79,9 +79,9 @@ else
 fi
 
 echo "[+] We are cloned and ready to go!"
+git status
 
-
-ls -la "$CLONE_DIR"
+# ls -la "$CLONE_DIR"
 
 TEMP_DIR=$(mktemp -d)
 # This mv has been the easier way to be able to remove files that were there
@@ -130,6 +130,8 @@ cd "$CLONE_DIR"
 
 echo "[+] Files that will be pushed"
 ls -la
+
+git checkout "$TARGET_BRANCH"
 
 ORIGIN_COMMIT="https://$GITHUB_SERVER/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/ORIGIN_COMMIT/$ORIGIN_COMMIT}"

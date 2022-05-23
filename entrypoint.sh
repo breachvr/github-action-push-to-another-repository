@@ -64,6 +64,7 @@ else
 
 	if [ "$CREATE_BRANCH" ]; then
 		echo "[+] Checking out repo then creating branch"
+		git config --global --add safe.directory /github/workspace
 		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 		git checkout -b "$TARGET_BRANCH"
 	else

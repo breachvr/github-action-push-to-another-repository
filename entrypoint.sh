@@ -140,13 +140,19 @@ git add .
 echo "[+] git status:"
 git status
 
-# echo "[+] showing git refs:"
-# git show-ref
+echo "[+] showing git refs:"
+git show-ref
 
 # echo "[+] git diff-index:"
 # # git diff-index : to avoid doing the git commit failing if there are no changes to be commit
-# git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
+# git diff-index --quiet HEAD || 
+echo "[+] comitting changes"
+git commit --message "$COMMIT_MESSAGE"
 
-# echo "[+] Pushing git commit"
+
+echo "[+] Pushing git commit"
 # # --set-upstream: sets the branch when pushing to a branch that does not exist
-# git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
+git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
+
+echo "[+] Pushing LFS files"
+git-lfs push

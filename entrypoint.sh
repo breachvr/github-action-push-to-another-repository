@@ -50,7 +50,7 @@ fi
 
 
 # Check if target branch exists
-if [ $(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l) == "1"]; then
+if [ $(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l) == "1" ]; then
 	echo "[+] Target branch exists"
 else
 	echo "[-] Target branch does not exist"

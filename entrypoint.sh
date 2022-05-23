@@ -39,6 +39,11 @@ echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
+echo "[+] Set directory is safe ($CLONE_DIR)"
+# Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
+# TODO: review before releasing it as a version
+git config --global --add safe.directory "$CLONE_DIR"
+
 
 echo "[+] Checking if remote exists"
 if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then
@@ -127,7 +132,7 @@ then
 	echo "If you want to copy a directory that exist in the source repository"
 	echo "to the target repository: you need to clone the source repository"
 	echo "in a previous step in the same build section. For example using"
-	echo "actions/checkout@v2. See: https://github.com/cpina/push-to-another-repository-example/blob/main/.github/workflows/ci.yml#L16"
+	echo "actions/checkout@v3. See: https://github.com/cpina/push-to-another-repository-example/blob/main/.github/workflows/ci.yml#L16"
 	exit 1
 fi
 
@@ -142,10 +147,7 @@ ORIGIN_COMMIT="https://$GITHUB_SERVER/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/ORIGIN_COMMIT/$ORIGIN_COMMIT}"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 
-echo "[+] Set directory is safe ($CLONE_DIR)"
-# Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
-# TODO: review before releasing it as a version
-git config --global --add safe.directory "$CLONE_DIR"
+
 
 # # if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
 # #   echo "Creating branch $TARGET_BRANCH"

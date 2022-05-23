@@ -41,7 +41,7 @@ git config --global user.name "$USER_NAME"
 
 
 echo "[+] Checking if remote exists"
-if [[ -z $(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git") ]]; then
+if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then
 	echo "[-] Remote not found"
 	exit 1
 else
@@ -50,7 +50,7 @@ fi
 
 
 # Check if target branch exists
-if [ $(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l) == "1" ]; then
+if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l)" == "1" ]; then
 	echo "[+] Target branch exists"
 else
 	echo "[-] Target branch does not exist"

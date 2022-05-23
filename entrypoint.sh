@@ -33,6 +33,7 @@ CLONE_DIR=$(mktemp -d)
 
 echo "[+] Git version"
 git --version
+git-lfs --version
 
 echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 # Setup git

@@ -34,15 +34,14 @@ CLONE_DIR=$(mktemp -d)
 echo "[+] Git version"
 git --version
 
-echo "[+] Cloning destination git repository $DESTINATION_REPOSITORY_NAME"
+echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 # Setup git
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 
-
 echo "[+] Checking if remote exists"
-for i in $(git ls-remote git@github.com:breachvr/placeholder-logger.git)
+for i in $(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")
 do
 	echo "$i"
 done

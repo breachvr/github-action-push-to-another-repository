@@ -6,6 +6,7 @@
 # adding file
 # changing file
 # removing file
+# nothing to commit
 
 
 set -e  # if a command fails it stops the execution
@@ -137,12 +138,9 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
 
-# TODO: Don't think that is neccesary
-echo "[+] Pull Git LFS objects"
-git lfs pull
-
-# cd "$CLONE_DIR"
-# cd ..
+# # TODO: Don't think that is neccesary
+# echo "[+] Pull Git LFS objects"
+# git lfs pull
 
 echo "[+] Files that will be pushed"
 ls -la

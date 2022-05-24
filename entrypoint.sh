@@ -109,8 +109,8 @@ mkdir -p "$ABSOLUTE_TARGET_DIRECTORY"
 
 mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 
-echo "[+] List contents of $SOURCE_DIRECTORY"
-ls "$SOURCE_DIRECTORY"
+# echo "[+] List contents of $SOURCE_DIRECTORY"
+# ls "$SOURCE_DIRECTORY"
 
 echo "[+] Checking if local $SOURCE_DIRECTORY exist"
 if [ ! -d "$SOURCE_DIRECTORY" ]
@@ -157,10 +157,10 @@ COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 echo "[+] Adding git commit"
 git add .
 
-echo "[+] git status:"
-git status
+# echo "[+] git status:"
+# git status
 
-echo "[+] comitting changes if any"
+# echo "[+] comitting changes if any"
 if [ -n "$(git status --porcelain)" ]; then
 
 	echo "[+] Comitting changes"
@@ -173,6 +173,8 @@ if [ -n "$(git status --porcelain)" ]; then
 
 	echo "[+] Pushing LFS files"
 	git lfs push origin "$TARGET_BRANCH"
+else
+	echo "[+] Nothing to commit"
 fi
 
 echo "[+] Action completed"

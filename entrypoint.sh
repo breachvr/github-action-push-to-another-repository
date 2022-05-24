@@ -44,9 +44,10 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 git config --global --add safe.directory "$CLONE_DIR"
 # git config --global --add safe.directory /github/workspace
 
-echo "[+] Pull Git LFS objects"
+# echo "[+] Pull Git LFS objects"
 # Pull lfs objects from source repo
-git-lfs pull
+# git-lfs pull
+git status
 
 echo "[+] Checking if remote exists"
 if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then

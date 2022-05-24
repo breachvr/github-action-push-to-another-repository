@@ -77,10 +77,7 @@ else
 	fi
 fi
 
-echo "[+] Pull Git LFS objects"
-cd "$CLONE_DIR"
-git-lfs pull
-cd ..
+
 
 # echo "[+] We are cloned and ready to go!"
 # git status
@@ -136,6 +133,12 @@ fi
 echo "[+] Copying contents of source repository folder $SOURCE_DIRECTORY to folder $TARGET_DIRECTORY in git repo $DESTINATION_REPOSITORY_NAME"
 cp -ra "$SOURCE_DIRECTORY"/. "$CLONE_DIR/$TARGET_DIRECTORY"
 cd "$CLONE_DIR"
+
+echo "[+] Pull Git LFS objects"
+git-lfs pull
+
+# cd "$CLONE_DIR"
+# cd ..
 
 echo "[+] Files that will be pushed"
 ls -la

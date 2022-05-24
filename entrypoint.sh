@@ -155,8 +155,8 @@ COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 echo "[+] Adding git commit"
 git add .
 
-# echo "[+] git status:"
-# git status
+echo "[+] git status:"
+git status
 
 # echo "[+] comitting changes if any"
 if [ -n "$(git status --porcelain)" ]; then

@@ -142,10 +142,8 @@ git config --global --add safe.directory "$CLONE_DIR"
 
 echo "Current branch: $(git rev-parse --abbrev-ref HEAD), target branch: $TARGET_BRANCH"
 # If we are not already on the target branch, create it
-if [ "$(git rev-parse --abbrev-ref HEAD)"="$TARGET_BRANCH" ]; then
-	echo "[+] We are on correct branch"
-else
-	echo "[+] We need to create the branch"
+if [ "$(git rev-parse --abbrev-ref HEAD)"!="$TARGET_BRANCH" ]; then
+	echo "[+] Creating branch: $TARGET_BRANCH"
 	git checkout -b "$TARGET_BRANCH"
 fi
 

@@ -46,29 +46,6 @@ echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
-echo "[+] Checking out LFS objects"
-git config --global --add safe.directory /github/workspace/
-git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
-git config --global --add safe.directory "$SOURCE_DIRECTORY"
-pwd
-cd "$SOURCE_DIRECTORY"
-git config --global --add safe.directory /github/workspace/
-git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
-git config --global --add safe.directory "$SOURCE_DIRECTORY"
-pwd
-git status
-cd /github/workspace/
-pwd
-# git lfs checkout
-
-exit 1
-
-
-# git config --global --add safe.directory /github/workspace
-
-
-# git status
-
 echo "[+] Checking if remote exists"
 if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then
 	echo "::error::Could not find the remote"
@@ -77,7 +54,6 @@ if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$
 else
 	echo "[+] remote exists, proceeding"
 fi
-
 
 # Check if target branch exists
 if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" $TARGET_BRANCH | wc -l)" == "1" ]; then

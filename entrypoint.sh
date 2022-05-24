@@ -16,7 +16,6 @@
 set -e  # if a command fails it stops the execution
 set -u  # script fails if trying to access to an undefined variable
 
-echo "[+] Action start"
 SOURCE_BEFORE_DIRECTORY="${1}"
 SOURCE_DIRECTORY="${2}"
 DESTINATION_GITHUB_USERNAME="${3}"
@@ -42,11 +41,10 @@ fi
 
 CLONE_DIR=$(mktemp -d)
 
-echo "[+] Git version"
+echo "[+] Running action with git versions:"
 git --version
 git-lfs --version
 
-echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 # Setup git
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"

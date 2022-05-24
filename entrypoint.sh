@@ -44,9 +44,7 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 git config --global --add safe.directory "$CLONE_DIR"
 # git config --global --add safe.directory /github/workspace
 
-# echo "[+] Pull Git LFS objects"
-# Pull lfs objects from source repo
-# git-lfs pull
+
 # git status
 
 echo "[+] Checking if remote exists"
@@ -78,6 +76,11 @@ else
 		exit 1
 	fi
 fi
+
+echo "[+] Pull Git LFS objects"
+cd "$CLONE_DIR"
+git-lfs pull
+cd ..
 
 # echo "[+] We are cloned and ready to go!"
 # git status

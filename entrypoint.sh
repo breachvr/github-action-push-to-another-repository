@@ -174,4 +174,4 @@ echo "[+] Pushing git commit"
 git push origin "$TARGET_BRANCH" --set-upstream
 
 echo "[+] Pushing LFS files"
-git-lfs push
+git-lfs push origin "$TARGET_BRANCH"

@@ -50,6 +50,10 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 
+# echo "[+] Show source data"
+
+
+
 #########################################################################################
 # Check the if the remote is valid														#
 #########################################################################################
@@ -137,12 +141,12 @@ echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
 git config --global --add safe.directory "$CLONE_DIR"
 
-# echo "[+] Files that will be pushed"
-# ls -la
+echo "[+] Files that will be pushed"
+ls -la
 
 echo "Current branch: $(git rev-parse --abbrev-ref HEAD), target branch: $TARGET_BRANCH"
 # If we are not already on the target branch, create it
-if [ "$(git rev-parse --abbrev-ref HEAD)"!="$TARGET_BRANCH" ]; then
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "$TARGET_BRANCH" ]; then
 	echo "[+] Creating branch: $TARGET_BRANCH"
 	git checkout -b "$TARGET_BRANCH"
 fi

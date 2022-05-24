@@ -47,8 +47,15 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 echo "[+] Checking out LFS objects"
-(cd "$SOURCE_DIRECTORY"; git status)
-git lfs checkout
+pwd
+cd "$SOURCE_DIRECTORY"
+pwd
+git status
+cd ..
+pwd
+# git lfs checkout
+
+exit 1
 
 echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64

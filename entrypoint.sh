@@ -47,6 +47,7 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 echo "[+] Checking out LFS objects"
+(cd "$SOURCE_DIRECTORY"; git status)
 git lfs checkout
 
 echo "[+] Set directory is safe ($CLONE_DIR)"

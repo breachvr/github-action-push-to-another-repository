@@ -49,10 +49,12 @@ git config --global user.name "$USER_NAME"
 echo "[+] Checking out LFS objects"
 git config --global --add safe.directory /github/workspace/
 git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
+git config --global --add safe.directory "$SOURCE_DIRECTORY"
 pwd
 cd "$SOURCE_DIRECTORY"
 git config --global --add safe.directory /github/workspace/
 git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
+git config --global --add safe.directory "$SOURCE_DIRECTORY"
 pwd
 git status
 cd /github/workspace/
@@ -61,10 +63,7 @@ pwd
 
 exit 1
 
-echo "[+] Set directory is safe ($CLONE_DIR)"
-# Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
-# TODO: review before releasing it as a version
-git config --global --add safe.directory "$CLONE_DIR"
+
 # git config --global --add safe.directory /github/workspace
 
 
@@ -156,6 +155,11 @@ fi
 echo "[+] Copying contents of source repository folder $SOURCE_DIRECTORY to folder $TARGET_DIRECTORY in git repo $DESTINATION_REPOSITORY_NAME"
 cp -ra "$SOURCE_DIRECTORY"/. "$CLONE_DIR/$TARGET_DIRECTORY"
 cd "$CLONE_DIR"
+
+echo "[+] Set directory is safe ($CLONE_DIR)"
+# Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
+# TODO: review before releasing it as a version
+git config --global --add safe.directory "$CLONE_DIR"
 
 # TODO: Don't think that is neccesary
 echo "[+] Pull Git LFS objects"

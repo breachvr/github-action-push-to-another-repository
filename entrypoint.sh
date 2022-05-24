@@ -9,6 +9,9 @@
 # removing file
 # nothing to commit
 
+#########################################################################################
+# SETUP																					#
+#########################################################################################
 
 set -e  # if a command fails it stops the execution
 set -u  # script fails if trying to access to an undefined variable
@@ -48,6 +51,11 @@ echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
+
+#########################################################################################
+# Check the if the remote is valid														#
+#########################################################################################
+
 echo "[+] Checking if remote exists"
 if [[ -z "$(git ls-remote "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git")" ]]; then
 	echo "::error::Could not find the remote"
@@ -62,30 +70,19 @@ if [ "$(git ls-remote --heads "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERV
 	echo "[+] Target branch exists, cloning repo"
 	git clone --single-branch --branch "$TARGET_BRANCH" "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
 else
-	echo "[-] Target branch does not exist"
-
 	if [ "$CREATE_BRANCH" ]; then
 		echo "[+] Checking out repo then creating branch"
-		git config --global --add safe.directory /github/workspace
+		# git config --global --add safe.directory /github/workspace
 		git clone --single-branch "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" "$CLONE_DIR"
-		# git lfs pull
-		# git checkout -b "$TARGET_BRANCH"
-		# git status
 	else
-		echo "[-] Create new branch disabled, exiting"
+		echo "[-] Target branch does not exist for repo and create new branch flag is not enabled, exiting."
 		exit 1
 	fi
 fi
 
-
-
-# echo "[+] We are cloned and ready to go!"
-# git status
-# git remote -v
-
-# cd "$CLONE_DIR"
-# git status
-# git remote -v
+#########################################################################################
+# Prepare and copy over the files														#
+#########################################################################################
 
 # ls -la "$CLONE_DIR"
 
@@ -104,11 +101,11 @@ rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 echo "[+] Creating (now empty) $ABSOLUTE_TARGET_DIRECTORY"
 mkdir -p "$ABSOLUTE_TARGET_DIRECTORY"
 
-echo "[+] Listing Current Directory Location"
-ls -al
+# echo "[+] Listing Current Directory Location"
+# ls -al
 
-echo "[+] Listing root Location"
-ls -al /
+# echo "[+] Listing root Location"
+# ls -al /
 
 mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 
@@ -134,17 +131,16 @@ echo "[+] Copying contents of source repository folder $SOURCE_DIRECTORY to fold
 cp -ra "$SOURCE_DIRECTORY"/. "$CLONE_DIR/$TARGET_DIRECTORY"
 cd "$CLONE_DIR"
 
+#########################################################################################
+# Git operations on clone-repository													#
+#########################################################################################
+
 echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64
-# TODO: review before releasing it as a version
 git config --global --add safe.directory "$CLONE_DIR"
 
-# # TODO: Don't think that is neccesary
-# echo "[+] Pull Git LFS objects"
-# git lfs pull
-
-echo "[+] Files that will be pushed"
-ls -la
+# echo "[+] Files that will be pushed"
+# ls -la
 
 # If we are not already on the target branch, create it
 if [ "$(git rev-parse --abbrev-ref HEAD)"="$TARGET_BRANCH" ]; then
@@ -164,27 +160,19 @@ git add .
 echo "[+] git status:"
 git status
 
-# echo "[+] showing git refs:"
-# git show-ref
-
-# # echo "[+] git diff-index:"
-# # # git diff-index : to avoid doing the git commit failing if there are no changes to be commit
-# # git diff-index --quiet HEAD || 
 echo "[+] comitting changes if any"
 if [ -n "$(git status --porcelain)" ]; then
-	echo "[+] There are changes to commit"
+
+	echo "[+] Comitting changes"
 	git commit --message "$COMMIT_MESSAGE"
 
-	# echo "[+] listing remotes"
-	# git remote -v
-
 	echo "[+] Pushing git commit"
-	# # # --set-upstream: sets the branch when pushing to a branch that does not exist
+	# --set-upstream: sets the branch when pushing to a branch that does not exist
 	# git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
 	git push origin "$TARGET_BRANCH" --set-upstream
 
 	echo "[+] Pushing LFS files"
 	git lfs push origin "$TARGET_BRANCH"
-else
-	echo "[+] No changes to commit, we are done here"
 fi
+
+echo "[+] Action completed"

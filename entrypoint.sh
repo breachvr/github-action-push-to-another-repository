@@ -3,6 +3,7 @@
 # Tests:
 # If no repo, fail and tell user what is wrong
 # If repo but no branch and not create, fail and tell user what is wrong
+# If repo, branch already exists
 # adding file
 # changing file
 # removing file
@@ -169,16 +170,21 @@ git status
 # # echo "[+] git diff-index:"
 # # # git diff-index : to avoid doing the git commit failing if there are no changes to be commit
 # # git diff-index --quiet HEAD || 
-echo "[+] comitting changes"
-git commit --message "$COMMIT_MESSAGE"
+echo "[+] comitting changes if any"
+if [ -n "$(git status --porcelain)" ]; then
+	echo "[+] There are changes to commit"
+	git commit --message "$COMMIT_MESSAGE"
 
-echo "[+] listing remotes"
-git remote -v
+	# echo "[+] listing remotes"
+	# git remote -v
 
-echo "[+] Pushing git commit"
-# # # --set-upstream: sets the branch when pushing to a branch that does not exist
-# git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
-git push origin "$TARGET_BRANCH" --set-upstream
+	echo "[+] Pushing git commit"
+	# # # --set-upstream: sets the branch when pushing to a branch that does not exist
+	# git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
+	git push origin "$TARGET_BRANCH" --set-upstream
 
-echo "[+] Pushing LFS files"
-git lfs push origin "$TARGET_BRANCH"
+	echo "[+] Pushing LFS files"
+	git lfs push origin "$TARGET_BRANCH"
+else
+	echo "[+] No changes to commit, we are done here"
+fi

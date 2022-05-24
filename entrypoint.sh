@@ -3,6 +3,9 @@
 # Tests:
 # If no repo, fail and tell user what is wrong
 # If repo but no branch and not create, fail and tell user what is wrong
+# adding file
+# changing file
+# removing file
 
 
 set -e  # if a command fails it stops the execution
@@ -42,6 +45,9 @@ echo "[+] Setup git $DESTINATION_REPOSITORY_NAME"
 # Setup git
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
+
+echo "[+] Checking out LFS objects"
+git lfs checkout
 
 echo "[+] Set directory is safe ($CLONE_DIR)"
 # Related to https://github.com/cpina/github-action-push-to-another-repository/issues/64 and https://github.com/cpina/github-action-push-to-another-repository/issues/64

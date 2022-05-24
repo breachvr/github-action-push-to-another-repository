@@ -1,5 +1,10 @@
 #!/bin/sh -l
 
+# Tests:
+# If no repo, fail and tell user what is wrong
+# If repo but no branch and not create, fail and tell user what is wrong
+
+
 set -e  # if a command fails it stops the execution
 set -u  # script fails if trying to access to an undefined variable
 
@@ -134,8 +139,9 @@ echo "[+] Copying contents of source repository folder $SOURCE_DIRECTORY to fold
 cp -ra "$SOURCE_DIRECTORY"/. "$CLONE_DIR/$TARGET_DIRECTORY"
 cd "$CLONE_DIR"
 
+# TODO: Don't think that is neccesary
 echo "[+] Pull Git LFS objects"
-git-lfs pull
+git lfs pull
 
 # cd "$CLONE_DIR"
 # cd ..
@@ -174,4 +180,4 @@ echo "[+] Pushing git commit"
 git push origin "$TARGET_BRANCH" --set-upstream
 
 echo "[+] Pushing LFS files"
-git-lfs push origin "$TARGET_BRANCH"
+git lfs push origin "$TARGET_BRANCH"

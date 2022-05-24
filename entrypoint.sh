@@ -47,9 +47,10 @@ git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
 echo "[+] Checking out LFS objects"
+git config --global --add safe.directory /github/workspace/
+# git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
 pwd
 cd "$SOURCE_DIRECTORY"
-git config --global --add safe.directory /github/workspace/"$SOURCE_DIRECTORY"
 pwd
 git status
 cd /github/workspace/

@@ -145,8 +145,13 @@ git config --global --add safe.directory "$CLONE_DIR"
 echo "[+] Files that will be pushed"
 ls -la
 
-# TODO: We are either already
-git checkout -b "$TARGET_BRANCH"
+# If we are not already on the target branch, create it
+if [ "$(git rev-parse --abbrev-ref HEAD)"="$TARGET_BRANCH" ]; then
+	echo "[+] We are on correct branch"
+else
+	echo "[+] We need to create the branch"
+	git checkout -b "$TARGET_BRANCH"
+fi
 
 ORIGIN_COMMIT="https://$GITHUB_SERVER/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 COMMIT_MESSAGE="${COMMIT_MESSAGE/ORIGIN_COMMIT/$ORIGIN_COMMIT}"

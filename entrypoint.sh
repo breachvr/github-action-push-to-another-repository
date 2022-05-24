@@ -140,6 +140,7 @@ git config --global --add safe.directory "$CLONE_DIR"
 # echo "[+] Files that will be pushed"
 # ls -la
 
+echo "Current branch: $(git rev-parse --abbrev-ref HEAD), target branch: $TARGET_BRANCH"
 # If we are not already on the target branch, create it
 if [ "$(git rev-parse --abbrev-ref HEAD)"="$TARGET_BRANCH" ]; then
 	echo "[+] We are on correct branch"

@@ -28,6 +28,7 @@ TARGET_BRANCH="${9}"
 CREATE_BRANCH="${10}"
 COMMIT_MESSAGE="${11}"
 TARGET_DIRECTORY="${12}"
+FORCE_PUSH="${13}"
 
 if [ -z "$DESTINATION_REPOSITORY_USERNAME" ]
 then
@@ -167,10 +168,15 @@ if [ -n "$(git status --porcelain)" ]; then
 	echo "[+] Comitting changes"
 	git commit --message "$COMMIT_MESSAGE"
 
-	echo "[+] Pushing git commit"
 	# --set-upstream: sets the branch when pushing to a branch that does not exist
 	# git push "https://$USER_NAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
-	git push origin "$TARGET_BRANCH" --set-upstream
+	if [ "$FORCE_PUSH" ]; then
+		echo "[+] Force pushing branch"
+		git push -f origin "$TARGET_BRANCH" --set-upstream
+	else
+		echo "[+] Pushing branch"
+		git push origin "$TARGET_BRANCH" --set-upstream
+	fi
 
 	echo "[+] Pushing LFS files"
 	git lfs push origin "$TARGET_BRANCH"

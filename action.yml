@@ -52,6 +52,10 @@ inputs:
     description: '[Optional] The directory to wipe and replace in the target repository'
     default: ''
     required: false
+  force-push:
+    description: '[Optional] If true the action will force push to the remote branch'
+    default: false
+    required: false
         
 runs:
   using: docker
@@ -69,6 +73,7 @@ runs:
     - '${{ inputs.create-branch }}'
     - '${{ inputs.commit-message }}'
     - '${{ inputs.target-directory }}'
+    - '${{ inputs.force-push }}'
 branding:
   icon: git-commit
   color: green
